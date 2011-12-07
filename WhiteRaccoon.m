@@ -35,7 +35,7 @@
 /*======================================================WRBase============================================================*/
 
 @implementation WRBase
-@synthesize passive, password, username, schemeId, error;
+@synthesize passive, password, username, schemeId, error, port;
 
 
 
@@ -70,13 +70,14 @@ static NSMutableDictionary *folders;
         self.username = nil;
         self.hostname = nil;
         self.path = @"";
+        self.port = 21;
     }
     return self;
 }
 
 -(NSURL*) fullURL {
     // first we merge all the url parts into one big and beautiful url
-    NSString * fullURLString = [self.scheme stringByAppendingFormat:@"%@%@%@%@", @"://", self.credentials, self.hostname, self.path];
+    NSString * fullURLString = [self.scheme stringByAppendingFormat:@"://%@%@:%d%@", self.credentials, self.hostname, self.port, self.path];
     return [NSURL URLWithString:[fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 }
 

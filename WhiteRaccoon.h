@@ -136,6 +136,7 @@ typedef struct WRStreamInfo {
 @property (nonatomic, readonly) NSString * scheme;
 @property (nonatomic, retain) NSString * password;
 @property (nonatomic, retain) NSString * hostname;
+@property (nonatomic, assign) NSUInteger port;
 @property (nonatomic, readonly) NSString * credentials;
 @property (nonatomic, readonly) NSURL * fullURL;
 @property (nonatomic, retain) NSString * path;
