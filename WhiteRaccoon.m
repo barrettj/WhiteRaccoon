@@ -904,7 +904,7 @@ static NSMutableDictionary *folders;
 -(NSString *)path {
     //  the path will always point to a directory, so we add the final slash to it (if there was one before escaping/standardizing, it's *gone* now)
     NSString * directoryPath = [super path];
-    if (![directoryPath isEqualToString:@""]) {
+    if (![directoryPath isEqualToString:@""] && [directoryPath characterAtIndex:[directoryPath length] - 1] != '/') {
         directoryPath = [directoryPath stringByAppendingString:@"/"];
     }
     return directoryPath;
