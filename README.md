@@ -21,6 +21,9 @@ IMPORTANT: In order for the library to compile and run, you have to include **CF
 
 ### Simple usage
 
+Note: these instructions have not been updated to reflect my (BarrettJ) changes yet.
+
+
 
 #### Download file
 

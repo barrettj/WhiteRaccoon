@@ -83,44 +83,13 @@ typedef struct WRStreamInfo {
 
 
 
-/*======================================================WRRequestDelegate============================================================*/
-
-@protocol WRRequestDelegate  <NSObject>
-
-@required
--(void) requestCompleted:(WRRequest *) request;
--(void) requestFailed:(WRRequest *) request;
-
-@optional
--(BOOL) shouldOverwriteFileWithRequest: (WRRequest *) request;
+/*======================================================Blocks============================================================*/
 
 
-@end
+typedef void (^WRRequestFinishedBlock)(WRRequest *theRequest);
+typedef BOOL (^WRShouldOverwriteBlock)(WRRequest *theRequest);
 
-
-
-
-
-
-
-
-
-
-
-
-/*======================================================WRQueueDelegate============================================================*/
-
-@protocol WRQueueDelegate  <WRRequestDelegate>
-
-@required
--(void) queueCompleted:(WRRequestQueue *)queue;
-
-
-@end
-
-
-
-
+typedef void (^WRQueueFinishedBlock)(WRRequestQueue *theQueue);
 
 
 /*======================================================WRBase============================================================*/
@@ -168,10 +137,12 @@ typedef struct WRStreamInfo {
 @property (nonatomic, retain) WRRequest * nextRequest;
 @property (nonatomic, retain) WRRequest * prevRequest;
 @property (nonatomic, readonly) WRRequestTypes type;
-@property (nonatomic, retain) id<WRRequestDelegate> delegate;
 @property (nonatomic, readonly) WRStreamInfo * streamInfo;
 @property (nonatomic, assign) BOOL didManagedToOpenStream;
 
+@property (readwrite, copy) WRRequestFinishedBlock onComplete;
+@property (readwrite, copy) WRRequestFinishedBlock onFail;
+@property (readwrite, copy) WRShouldOverwriteBlock shouldOverwrite;
 
 @end
 
@@ -204,7 +175,7 @@ typedef struct WRStreamInfo {
 
 /*======================================================WRRequestUpload============================================================*/
 
-@interface WRRequestUpload : WRRequest<WRRequestDelegate, NSStreamDelegate> {
+@interface WRRequestUpload : WRRequest<NSStreamDelegate> {
     
 }
 
@@ -282,14 +253,18 @@ typedef struct WRStreamInfo {
 //  The request will be sent to the server in the order in which they were added.
 //  If an error occures on one of the operations
 
-@interface WRRequestQueue : WRBase<WRRequestDelegate> {
+@interface WRRequestQueue : WRBase {
    @private
     WRRequest * headRequest;
     WRRequest * tailRequest;
     
 }
 
-@property (nonatomic, retain) id<WRQueueDelegate> delegate;
+@property (readwrite, copy) WRQueueFinishedBlock onFinished;
+@property (readwrite, copy) WRRequestFinishedBlock onComplete;
+@property (readwrite, copy) WRRequestFinishedBlock onFail;
+@property (readwrite, copy) WRShouldOverwriteBlock shouldOverwrite;
+
 
 -(void) addRequest:(WRRequest *) request;
 -(void) addRequestInFront:(WRRequest *) request;
