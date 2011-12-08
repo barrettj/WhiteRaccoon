@@ -144,6 +144,9 @@ typedef void (^WRQueueFinishedBlock)(WRRequestQueue *theQueue);
 @property (readwrite, copy) WRRequestFinishedBlock onFail;
 @property (readwrite, copy) WRShouldOverwriteBlock shouldOverwrite;
 
+- (void)fail;
+- (void)complete;
+
 @end
 
 
@@ -181,6 +184,9 @@ typedef void (^WRQueueFinishedBlock)(WRRequestQueue *theQueue);
 
 @property (nonatomic, retain) WRRequestListDirectory * listrequest;
 @property (nonatomic, retain) NSData * sentData;
+@property (nonatomic, copy) NSString * filePath;
+
+@property (nonatomic, assign) BOOL alwaysOverwrite;
 
 @end
 
@@ -260,11 +266,12 @@ typedef void (^WRQueueFinishedBlock)(WRRequestQueue *theQueue);
     
 }
 
-@property (readwrite, copy) WRQueueFinishedBlock onFinished;
-@property (readwrite, copy) WRRequestFinishedBlock onComplete;
-@property (readwrite, copy) WRRequestFinishedBlock onFail;
+@property (readwrite, copy) WRQueueFinishedBlock onQueueFinished;
+@property (readwrite, copy) WRRequestFinishedBlock onRequestComplete;
+@property (readwrite, copy) WRRequestFinishedBlock onRequestFailed;
 @property (readwrite, copy) WRShouldOverwriteBlock shouldOverwrite;
 
+@property (nonatomic, assign) BOOL quitAfterFail;
 
 -(void) addRequest:(WRRequest *) request;
 -(void) addRequestInFront:(WRRequest *) request;
