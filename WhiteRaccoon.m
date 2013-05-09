@@ -514,6 +514,8 @@ static NSMutableDictionary *folders;
             [self complete];
             [self destroy];
         } break;
+        case NSStreamEventNone:
+            break;
     }
 }
 
@@ -801,6 +803,8 @@ static NSMutableDictionary *folders;
             [self fail];
             [self destroy];
         } break;
+        case NSStreamEventNone:
+            break;
     }
 }
 
@@ -919,6 +923,8 @@ static NSMutableDictionary *folders;
             [self complete];
             [self destroy];
         } break;
+        case NSStreamEventNone:
+            break;
     }
 }
 
@@ -1057,6 +1063,8 @@ static NSMutableDictionary *folders;
             [self complete];
             [self destroy];
         } break;
+        case NSStreamEventNone:
+            break;
     }
 }
 
