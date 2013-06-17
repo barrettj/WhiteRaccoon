@@ -24,6 +24,13 @@
 #import "WhiteRaccoon.h"
 #import "DDLog.h"
 
+#ifdef DEBUG
+static const int ddLogLevel = LOG_LEVEL_INFO;
+#else
+static const int ddLogLevel = LOG_LEVEL_WARN;
+#endif
+
+
 /*======================================================WRBase============================================================*/
 
 @implementation WRBase
