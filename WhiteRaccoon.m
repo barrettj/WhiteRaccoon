@@ -1052,9 +1052,10 @@ static NSMutableDictionary *folders;
             
         } break;
         case NSStreamEventErrorOccurred: {
+            DDLogError(@"NSStreamEventErrorOccurred on stream '%@' : %@", theStream, theStream.streamError);
             self.error = [[[WRRequestError alloc] init] autorelease];
             self.error.errorCode = [self.error errorCodeWithError:[theStream streamError]];
-            InfoLog(@"%@", self.error.message);
+            DDLogError(@"%@", self.error.message);
             [self fail];
             [self destroy];
         } break;
@@ -1185,8 +1186,8 @@ static NSMutableDictionary *folders;
 
 
 -(WRErrorCodes) errorCodeWithError:(NSError *) error {
-    //NSLog(@"%@", error);
-    return 0;
+    WRErrorCodes code = [[error.userInfo objectForKey:(NSString*)kCFFTPStatusCodeKey] intValue];
+    return code;
 }
 
 
