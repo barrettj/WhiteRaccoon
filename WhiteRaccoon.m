@@ -511,11 +511,10 @@ static NSMutableDictionary *folders;
             
         } break;
         case NSStreamEventErrorOccurred: {
+            DDLogError(@"NSStreamEventErrorOccurred on stream '%@' : %@", theStream, theStream.streamError);
             self.error = [[[WRRequestError alloc] init] autorelease];
             self.error.errorCode = [self.error errorCodeWithError:[theStream streamError]];
-            InfoLog(@"%@", self.error.message);
-            [self fail];
-            [self destroy];
+            DDLogError(@"%@", self.error.message);
         } break;
             
         case NSStreamEventEndEncountered: {
@@ -1047,9 +1046,10 @@ static NSMutableDictionary *folders;
                     } while (parsedBytes>0); 
                 }
             }else{
-                InfoLog(@"Stream opened, but failed while trying to read from it.");
+                DDLogError(@"NSStreamEventErrorOccurred on stream '%@' : %@", theStream, theStream.streamError);
                 self.error = [[[WRRequestError alloc] init] autorelease];
                 self.error.errorCode = kWRFTPClientCantReadStream;
+                DDLogError(@"%@", self.error.message);
                 [self fail];
                 [self destroy];
             }
