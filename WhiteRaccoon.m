@@ -425,7 +425,6 @@ static NSMutableDictionary *folders;
 /*======================================================WRRequestDownload============================================================*/
 
 @implementation WRRequestDownload
-@synthesize receivedData;
 
 -(WRRequestTypes)type {
     return kWRDownloadRequest;
@@ -457,6 +456,7 @@ static NSMutableDictionary *folders;
         return;
     }
     
+    _receivedData = [[NSMutableData data] retain];
     
     self.streamInfo->readStream.delegate = self;
 	[self.streamInfo->readStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
@@ -481,7 +481,7 @@ static NSMutableDictionary *folders;
         case NSStreamEventOpenCompleted: {
             self.didManagedToOpenStream = YES;
             self.streamInfo->bytesConsumedInTotal = 0;
-            self.receivedData = [NSMutableData data];
+            //NSLog(@"stream opened");
         } break;
         case NSStreamEventHasBytesAvailable: {
             
@@ -489,13 +489,13 @@ static NSMutableDictionary *folders;
             
             if (self.streamInfo->bytesConsumedThisIteration!=-1) {
                 if (self.streamInfo->bytesConsumedThisIteration!=0) {
+                    //NSLog(@"appending to data");
+                    //NSMutableData * recivedDataWithNewBytes = [self.receivedData mutableCopy];
+                    [_receivedData appendBytes:self.streamInfo->buffer length:self.streamInfo->bytesConsumedThisIteration];
                     
-                    NSMutableData * recivedDataWithNewBytes = [self.receivedData mutableCopy];                    
-                    [recivedDataWithNewBytes appendBytes:self.streamInfo->buffer length:self.streamInfo->bytesConsumedThisIteration];
+                    //self.receivedData = [NSData dataWithData:recivedDataWithNewBytes];
                     
-                    self.receivedData = [NSData dataWithData:recivedDataWithNewBytes];
-                    
-                    [recivedDataWithNewBytes release];
+                    //[recivedDataWithNewBytes release];
                     
                 }
             }else{
@@ -534,12 +534,14 @@ static NSMutableDictionary *folders;
         [self.streamInfo->readStream release];
         self.streamInfo->readStream = nil;
     }
+
+    [_receivedData release];
+    _receivedData = nil;
     
     [super destroy];
 }
 
 -(void)dealloc {
-    [receivedData release];
     [super dealloc];
 }
 

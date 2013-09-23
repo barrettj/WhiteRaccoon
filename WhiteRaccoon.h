@@ -160,7 +160,7 @@ typedef void (^WRQueueFinishedBlock)(WRRequestQueue *theQueue);
 /*======================================================WRRequestDownload============================================================*/
 
 @interface WRRequestDownload : WRRequest<NSStreamDelegate> {
-  
+  NSMutableData * _receivedData;
 }
 
 @property (nonatomic, retain) NSData * receivedData;
