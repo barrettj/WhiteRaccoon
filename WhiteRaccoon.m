@@ -511,10 +511,10 @@ static NSMutableDictionary *folders;
             
         } break;
         case NSStreamEventErrorOccurred: {
-            DDLogError(@"NSStreamEventErrorOccurred on stream '%@' : %@", theStream, theStream.streamError);
+            NSLog(@"NSStreamEventErrorOccurred on stream '%@' : %@", theStream, theStream.streamError);
             self.error = [[[WRRequestError alloc] init] autorelease];
             self.error.errorCode = [self.error errorCodeWithError:[theStream streamError]];
-            DDLogError(@"%@", self.error.message);
+            NSLog(@"%@", self.error.message);
         } break;
             
         case NSStreamEventEndEncountered: {
@@ -1048,10 +1048,10 @@ static NSMutableDictionary *folders;
                     } while (parsedBytes>0); 
                 }
             }else{
-                DDLogError(@"NSStreamEventErrorOccurred on stream '%@' : %@", theStream, theStream.streamError);
+                NSLog(@"NSStreamEventErrorOccurred on stream '%@' : %@", theStream, theStream.streamError);
                 self.error = [[[WRRequestError alloc] init] autorelease];
                 self.error.errorCode = kWRFTPClientCantReadStream;
-                DDLogError(@"%@", self.error.message);
+                NSLog(@"%@", self.error.message);
                 [self fail];
                 [self destroy];
             }
@@ -1062,10 +1062,10 @@ static NSMutableDictionary *folders;
             
         } break;
         case NSStreamEventErrorOccurred: {
-            DDLogError(@"NSStreamEventErrorOccurred on stream '%@' : %@", theStream, theStream.streamError);
+            NSLog(@"NSStreamEventErrorOccurred on stream '%@' : %@", theStream, theStream.streamError);
             self.error = [[[WRRequestError alloc] init] autorelease];
             self.error.errorCode = [self.error errorCodeWithError:[theStream streamError]];
-            DDLogError(@"%@", self.error.message);
+            NSLog(@"%@", self.error.message);
             [self fail];
             [self destroy];
         } break;
